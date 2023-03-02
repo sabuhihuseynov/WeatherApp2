@@ -1,9 +1,8 @@
 package org.example.mapper;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.CityWeatherDto;
 import org.example.dto.CityRequestDto;
-import org.example.dto.CityResponseDto;
+import org.example.dto.CityWeatherDto;
 import org.example.entity.City;
 import org.example.entity.Country;
 import org.example.repository.CountryRepository;
@@ -18,13 +17,6 @@ import java.util.List;
 public class CityMapper {
 
     private final CountryRepository countryRepository;
-
-    public CityResponseDto toCityResponseDto(City city) {
-        CityResponseDto cityResponseDto = new CityResponseDto();
-        cityResponseDto.setId(city.getId());
-        cityResponseDto.setName(city.getName());
-        return cityResponseDto;
-    }
 
     public City toCity(CityRequestDto cityRequestDto) {
         Country country = countryRepository.findById(cityRequestDto.getCountryId()).orElseThrow();
@@ -47,4 +39,5 @@ public class CityMapper {
         }
         return cities;
     }
+
 }

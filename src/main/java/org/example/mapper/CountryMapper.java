@@ -3,24 +3,16 @@ package org.example.mapper;
 import org.example.dto.CountryRequestDto;
 import org.example.dto.CountryResponseDto;
 import org.example.entity.Country;
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 
 @Component
+@Mapper(componentModel = "spring")
+public interface CountryMapper {
 
-public class CountryMapper {
+     CountryResponseDto toCountryResponseDto(Country country);
 
-    public CountryResponseDto toCountryResponseDto(Country country) {
-        CountryResponseDto countryResponseDto = new CountryResponseDto();
-        countryResponseDto.setId(country.getId());
-        countryResponseDto.setName(country.getName());
-        return countryResponseDto;
-    }
-
-    public Country toCountry(CountryRequestDto countryRequestDto) {
-        Country country = new Country();
-        country.setName(countryRequestDto.getName());
-        return country;
-    }
+     Country toCountry(CountryRequestDto countryRequestDto);
 
 }

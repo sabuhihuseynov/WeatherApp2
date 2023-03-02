@@ -28,13 +28,13 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
     implementation "io.springfox:springfox-swagger-ui:$swagger_version"
     implementation "io.springfox:springfox-swagger2:$swagger_version"
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     runtimeOnly 'org.postgresql:postgresql'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation("io.springfox:springfox-swagger2:$swagger_version") {
-        exclude module: 'mapstruct'
-    }
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
