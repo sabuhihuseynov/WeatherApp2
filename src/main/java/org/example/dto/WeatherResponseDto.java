@@ -7,9 +7,9 @@ import java.time.LocalTime;
 @Data
 public class WeatherResponseDto {
 
-    public String type;
-    public double temperature;
-    public double windSpeed;
-    LocalTime time;
+    private String type;
+    private double temperature;
+    private double windSpeed;
+    private LocalTime time;
 
 }

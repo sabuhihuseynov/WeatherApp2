@@ -11,13 +11,13 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CityWeatherDto {
-    Integer weatherId;
-    LocalDate date;
-    double temperature;
-    LocalTime time;
-    String type;
-    double windSpeed;
-    Integer cityId;
-    String cityName;
+    private Integer weatherId;
+    private LocalDate date;
+    private double temperature;
+    private LocalTime time;
+    private String type;
+    private double windSpeed;
+    private Integer cityId;
+    private String cityName;
 
 }
