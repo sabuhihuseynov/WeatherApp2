@@ -1,8 +1,8 @@
 package org.example.mapper;
 
-import org.example.dto.CountryRequestDto;
-import org.example.dto.CountryResponseDto;
-import org.example.entity.Country;
+import org.example.dao.entity.Country;
+import org.example.model.dto.CountryRequestDTO;
+import org.example.model.dto.CountryResponseDTO;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface CountryMapper {
 
-     CountryResponseDto toCountryResponseDto(Country country);
+    CountryResponseDTO toDTO(Country country);
 
-     Country toCountry(CountryRequestDto countryRequestDto);
+    Country toEntity(CountryRequestDTO countryRequestDto);
 
 }

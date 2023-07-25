@@ -1,45 +1,68 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.CityRequestDto;
-import org.example.dto.CityResponseDto;
-import org.example.entity.City;
-import org.example.error.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.example.dao.entity.City;
+import org.example.dao.entity.Country;
+import org.example.dao.repository.CityRepository;
+import org.example.error.exceptions.NotFoundException;
 import org.example.mapper.CityMapper;
-import org.example.repository.CityRepository;
+import org.example.model.consts.Messages;
+import org.example.model.dto.CityRequestDTO;
+import org.example.model.dto.CityResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CityServiceImpl implements CityService {
 
-    private final CityRepository cityRepository;
-    private final CityMapper cityMapper;
+    private final CityRepository repository;
+    private final CityMapper mapper;
 
-    public List<CityResponseDto> getAll() {
-        return cityRepository.getAll();
+    @Override
+    public List<CityResponseDTO> getAll() {
+        log.info("Action.getAll.start");
+        return repository.findAll().stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 
-    public List<CityResponseDto> getAllByCountry(Integer id) {
-        return cityRepository.findByCountryId(id);
+    @Override
+    public List<CityResponseDTO> getAllByCountry(Long id) {
+        log.info("Action.getAllByCountry.start");
+        return repository.findCitiesByCountryId(id)
+                .stream().map(mapper::toDTO)
+                .toList();
     }
 
-
-    public void add(CityRequestDto cityRequestDto) {
-        City city = cityMapper.toCity(cityRequestDto);
-        cityRepository.save(city);
+    @Override
+    public void add(CityRequestDTO cityRequestDto) {
+        log.info("Action.add.start");
+        Country country = new Country();
+        country.setId(cityRequestDto.countryId());
+        City city = mapper.toEntity(cityRequestDto, country);
+        repository.save(city);
+        log.info("Action.add.end");
     }
 
-    public void update(Integer id, CityRequestDto cityRequestDto) {
-        City city = cityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("City"));
-        city.setName(cityRequestDto.getName());
-        cityRepository.save(city);
+    @Override
+    public void update(Long id, CityRequestDTO cityRequestDto) {
+        log.info("Action.update.start");
+        City city = repository.findById(id).orElseThrow(() -> new NotFoundException(
+                Messages.CITY_NOT_FOUND, Messages.CITY_NOT_FOUND_MSG));
+        city.setName(cityRequestDto.name());
+        repository.save(city);
+        log.info("Action.update.end");
     }
 
-    public void deleteById(Integer id) {
-        cityRepository.deleteById(id);
+    @Override
+    public void delete(Long id) {
+        log.info("Action.delete.start");
+        repository.deleteById(id);
+        log.info("Action.delete.end");
     }
 
 }

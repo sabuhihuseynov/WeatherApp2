@@ -1,43 +1,24 @@
 package org.example.mapper;
 
-import org.example.dto.CityWeatherDto;
-import org.example.dto.WeatherResponseDto;
-import org.example.entity.City;
-import org.example.entity.Weather;
+import org.example.dao.entity.City;
+import org.example.dao.entity.Weather;
+import org.example.model.dto.WeatherRequestDTO;
+import org.example.model.dto.WeatherResponseDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
-public class WeatherMapper {
+@Mapper(componentModel = "spring")
+public interface WeatherMapper {
 
-    public WeatherResponseDto toWeatherResponseDto(Weather weather) {
-        WeatherResponseDto weatherResponseDto = new WeatherResponseDto();
-        weatherResponseDto.setType(weather.getType());
-        weatherResponseDto.setTemperature(weather.getTemperature());
-        weatherResponseDto.setWindSpeed(weather.getWindSpeed());
-        weatherResponseDto.setTime(weather.getTime());
-        return weatherResponseDto;
-    }
+    WeatherResponseDTO toDTO(Weather weather);
 
-    public List<Weather> convertCityWeatherDTOtoWeatherList(List<CityWeatherDto> cityWeatherDtoList) {
-        List<Weather> weatherList = new ArrayList<>();
-        for (CityWeatherDto cityWeatherDto : cityWeatherDtoList) {
-            Weather weather = new Weather();
-            City city = new City();
-            city.setId(cityWeatherDto.getCityId());
-            city.setName(cityWeatherDto.getCityName());
-            weather.setId(cityWeatherDto.getWeatherId());
-            weather.setType(cityWeatherDto.getType());
-            weather.setTime(cityWeatherDto.getTime());
-            weather.setTemperature(cityWeatherDto.getTemperature());
-            weather.setDate(cityWeatherDto.getDate());
-            weather.setWindSpeed(cityWeatherDto.getWindSpeed());
-            weather.setCity(city);
-            weatherList.add(weather);
-        }
-        return weatherList;
-    }
+    @Mapping(target = "city", source = "city")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    Weather toEntity(WeatherRequestDTO weatherRequestDTO, City city);
 
 }

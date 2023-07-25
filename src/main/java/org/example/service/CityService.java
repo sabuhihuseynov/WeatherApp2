@@ -1,20 +1,20 @@
 package org.example.service;
 
-import org.example.dto.CityRequestDto;
-import org.example.dto.CityResponseDto;
+import org.example.model.dto.CityRequestDTO;
+import org.example.model.dto.CityResponseDTO;
 
 import java.util.List;
 
 public interface CityService {
 
-    List<CityResponseDto> getAll();
+    List<CityResponseDTO> getAll();
 
-    List<CityResponseDto> getAllByCountry(Integer id);
+    List<CityResponseDTO> getAllByCountry(Long id);
 
-    void add(CityRequestDto cityRequestDto);
+    void add(CityRequestDTO cityRequestDto);
 
-    void update(Integer id, CityRequestDto cityRequestDto);
+    void update(Long id, CityRequestDTO cityRequestDto);
 
-    void deleteById(Integer id);
+    void delete(Long id);
 
 }

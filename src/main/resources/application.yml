@@ -1,11 +1,21 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username: postgres
-    password: 12345
+    url: jdbc:postgresql://localhost:5432/weather
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
   jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+   show-sql: true
 
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+
+springdoc:
+  swagger-ui:
+    path: /v1/public/weather-app/ui
+  api-docs:
+    path: /v1/public/weather-app/api-docs

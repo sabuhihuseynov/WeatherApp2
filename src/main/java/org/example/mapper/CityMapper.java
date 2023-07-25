@@ -1,43 +1,25 @@
 package org.example.mapper;
 
-import lombok.RequiredArgsConstructor;
-import org.example.dto.CityRequestDto;
-import org.example.dto.CityWeatherDto;
-import org.example.entity.City;
-import org.example.entity.Country;
-import org.example.repository.CountryRepository;
+import org.example.dao.entity.City;
+import org.example.dao.entity.Country;
+import org.example.model.dto.CityRequestDTO;
+import org.example.model.dto.CityResponseDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Component
-@RequiredArgsConstructor
-public class CityMapper {
+@Mapper(componentModel = "spring")
+public interface CityMapper {
 
-    private final CountryRepository countryRepository;
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "cityRequestDTO.name")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    City toEntity(CityRequestDTO cityRequestDTO, Country country);
 
-    public City toCity(CityRequestDto cityRequestDto) {
-        Country country = countryRepository.findById(cityRequestDto.getCountryId()).orElseThrow();
-        City city = new City();
-        city.setName(cityRequestDto.getName());
-        city.setCountry(country);
-        return city;
-    }
-
-    public List<City> covertCityWeatherDTOtoCityList(List<CityWeatherDto> cityWeatherDtoList) {
-        List<City> cities = new ArrayList<>();
-        for (CityWeatherDto cityWeatherDto : cityWeatherDtoList) {
-            City city = new City();
-            city.setId(cityWeatherDto.getCityId());
-            city.setName(cityWeatherDto.getCityName());
-            if (cities.contains(city)) {
-                continue;
-            }
-            cities.add(city);
-        }
-        return cities;
-    }
+    CityResponseDTO toDTO(City city);
 
 }
+

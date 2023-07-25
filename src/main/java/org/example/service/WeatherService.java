@@ -1,24 +1,21 @@
 package org.example.service;
 
-import org.example.dto.WeatherRequestDto;
-import org.example.dto.WeatherResponseDto;
-import org.example.entity.Weather;
+import org.example.model.dto.WeatherRequestDTO;
+import org.example.model.dto.WeatherResponseDTO;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 public interface WeatherService {
-    void create(WeatherRequestDto weatherRequestDto);
+    void add(WeatherRequestDTO weatherRequestDto);
 
-    Map<String, Map<LocalDate, List<WeatherResponseDto>>> getAll();
+    Map<String, Map<LocalDate, List<WeatherResponseDTO>>> getAllByLocalDate(LocalDate localDate);
 
-    Map<String, Map<LocalDate, List<WeatherResponseDto>>> getByCityId(Integer cityId);
+    Map<String, Map<LocalDate, List<WeatherResponseDTO>>> getByCityId(Long cityId);
 
-    List<WeatherResponseDto> getWeather(LocalDate localDate, List<Weather> weatherList, String cityName);
+    void update(Long id, WeatherRequestDTO weatherRequestDto);
 
-    void update(Integer id, WeatherRequestDto weatherRequestDto);
-
-    void delete(Integer id);
+    void delete(Long id);
 
 }

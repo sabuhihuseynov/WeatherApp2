@@ -1,18 +1,19 @@
 package org.example.service;
 
-import org.example.dto.CountryRequestDto;
-import org.example.dto.CountryResponseDto;
+
+import org.example.model.dto.CountryRequestDTO;
+import org.example.model.dto.CountryResponseDTO;
 
 import java.util.List;
 
 public interface CountryService {
 
-    List<CountryResponseDto> getAll();
+    List<CountryResponseDTO> getAll();
 
-    void add(CountryRequestDto countryRequestDto);
+    void add(CountryRequestDTO countryRequestDto);
 
-    void update(Integer id, CountryRequestDto countryRequestDto);
+    void update(Long id, CountryRequestDTO countryRequestDto);
 
-    void deleteById(Integer id);
+    void delete(Long id);
 
 }
