@@ -15,7 +15,6 @@ public interface WeatherMapper {
 
     WeatherResponseDTO toDTO(Weather weather);
 
-    @Mapping(target = "city", source = "city")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
