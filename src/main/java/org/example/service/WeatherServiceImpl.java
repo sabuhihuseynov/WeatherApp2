@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -35,32 +36,6 @@ public class WeatherServiceImpl implements WeatherService {
         Weather weather = mapper.toEntity(weatherRequestDto, city);
         repository.save(weather);
         log.info("Action.add.end");
-    }
-
-    @Override
-    public Map<String, Map<LocalDate, List<WeatherResponseDTO>>> getAllByLocalDate(LocalDate localDate) {
-        log.info("Action.getAll.start");
-        Map<String, Map<LocalDate, List<WeatherResponseDTO>>> weatherMap = new HashMap<>();
-        List<Weather> weatherList = repository.findAllByDate(localDate);
-        for (Weather weather : weatherList) {
-            String cityName = weather.getCity().getName();
-            if (!weatherMap.containsKey(cityName)) {
-                Map<LocalDate, List<WeatherResponseDTO>> weatherDTOMap = getWeatherDTOMap(weatherList, cityName);
-                weatherMap.put(cityName, weatherDTOMap);
-            }
-        }
-        return weatherMap;
-    }
-
-    @Override
-    public Map<String, Map<LocalDate, List<WeatherResponseDTO>>> getByCityId(Long cityId) {
-        log.info("Action.getByCityId.start");
-        Map<String, Map<LocalDate, List<WeatherResponseDTO>>> weatherMap = new HashMap<>();
-        List<Weather> weatherList = repository.findWeatherByCityId(cityId);
-        String cityName = weatherList.get(0).getCity().getName();
-        Map<LocalDate, List<WeatherResponseDTO>> weatherResponseDTOMap = getWeatherDTOMap(weatherList);
-        weatherMap.put(cityName, weatherResponseDTOMap);
-        return weatherMap;
     }
 
     @Override
@@ -83,40 +58,35 @@ public class WeatherServiceImpl implements WeatherService {
         log.info("Action.delete.start");
     }
 
-    private Map<LocalDate, List<WeatherResponseDTO>> getWeatherDTOMap(List<Weather> weatherList, String cityName) {
-        Map<LocalDate, List<WeatherResponseDTO>> weatherDTOMap = new HashMap<>();
-        List<WeatherResponseDTO> weatherResponseDTOList = new ArrayList<>();
-        LocalDate localDate = weatherList.get(0).getDate();
+    @Override
+    public Map<String, Map<LocalDate, List<WeatherResponseDTO>>> getAllByLocalDate(LocalDate localDate) {
+        log.info("Action.getAllByLocalDate.start");
+        Map<String, Map<LocalDate, List<WeatherResponseDTO>>> weatherMap = new HashMap<>();
+        List<Weather> weatherList = repository.findAllByDate(localDate);
+
         for (Weather weather : weatherList) {
-            if (weather.getCity().getName().equals(cityName)) {
-                WeatherResponseDTO weatherResponseDTO = mapper.toDTO(weather);
-                weatherResponseDTOList.add(weatherResponseDTO);
-            }
+            String cityName = weather.getCity().getName();
+            weatherMap.putIfAbsent(cityName, new HashMap<>());
+            weatherMap.get(cityName).putIfAbsent(localDate, new ArrayList<>());
+            weatherMap.get(cityName).get(localDate).add(mapper.toDTO(weather));
         }
-        weatherDTOMap.put(localDate, weatherResponseDTOList);
-        return weatherDTOMap;
+        return weatherMap;
+    }
+
+    @Override
+    public Map<String, Map<LocalDate, List<WeatherResponseDTO>>> getByCityId(Long cityId) {
+        log.info("Action.getByCityId.start");
+        Map<String, Map<LocalDate, List<WeatherResponseDTO>>> weatherMap = new HashMap<>();
+        List<Weather> weatherList = repository.findWeatherByCityId(cityId);
+        String cityName = weatherList.get(0).getCity().getName();
+        weatherMap.put(cityName, getWeatherDTOMap(weatherList));
+        return weatherMap;
     }
 
     private Map<LocalDate, List<WeatherResponseDTO>> getWeatherDTOMap(List<Weather> weatherList) {
-        Map<LocalDate, List<WeatherResponseDTO>> weatherDTOMap = new HashMap<>();
-        for (Weather weather : weatherList) {
-            LocalDate localDate = weather.getDate();
-            if (!weatherDTOMap.containsKey(localDate)) {
-                List<WeatherResponseDTO> weatherResponseDTOList = getWeatherDTOList(weatherList, localDate);
-                weatherDTOMap.put(localDate, weatherResponseDTOList);
-            }
-        }
-        return weatherDTOMap;
+        return weatherList.stream()
+                .collect(Collectors.groupingBy(Weather::getDate,
+                        Collectors.mapping(mapper::toDTO, Collectors.toList())));
     }
 
-    private List<WeatherResponseDTO> getWeatherDTOList(List<Weather> weatherList, LocalDate localDate) {
-        List<WeatherResponseDTO> weatherDTOList = new ArrayList<>();
-        for (Weather weather : weatherList) {
-            if (weather.getDate().equals(localDate)) {
-                WeatherResponseDTO weatherResponseDTO = mapper.toDTO(weather);
-                weatherDTOList.add(weatherResponseDTO);
-            }
-        }
-        return weatherDTOList;
-    }
 }
