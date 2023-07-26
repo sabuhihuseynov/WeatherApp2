@@ -29,36 +29,6 @@ public class WeatherServiceImpl implements WeatherService {
     private final WeatherMapper mapper;
 
     @Override
-    public void add(WeatherRequestDTO weatherRequestDto) {
-        log.info("Action.add.start");
-        City city = new City();
-        city.setId(weatherRequestDto.cityId());
-        Weather weather = mapper.toEntity(weatherRequestDto, city);
-        repository.save(weather);
-        log.info("Action.add.end");
-    }
-
-    @Override
-    public void update(Long id, WeatherRequestDTO weatherRequestDto) {
-        log.info("Action.update.start");
-        repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(Messages.WEATHER_NOT_FOUND, Messages.WEATHER_NOT_FOUND_MSG));
-        City city = new City();
-        city.setId(weatherRequestDto.cityId());
-        Weather weather = mapper.toEntity(weatherRequestDto, city);
-        weather.setId(id);
-        repository.save(weather);
-        log.info("Action.update.end");
-    }
-
-    @Override
-    public void delete(Long id) {
-        log.info("Action.delete.start");
-        repository.deleteById(id);
-        log.info("Action.delete.start");
-    }
-
-    @Override
     public Map<String, Map<LocalDate, List<WeatherResponseDTO>>> getAllByLocalDate(LocalDate localDate) {
         log.info("Action.getAllByLocalDate.start");
         Map<String, Map<LocalDate, List<WeatherResponseDTO>>> weatherMap = new HashMap<>();
@@ -87,6 +57,36 @@ public class WeatherServiceImpl implements WeatherService {
         return weatherList.stream()
                 .collect(Collectors.groupingBy(Weather::getDate,
                         Collectors.mapping(mapper::toDTO, Collectors.toList())));
+    }
+
+    @Override
+    public void add(WeatherRequestDTO weatherRequestDto) {
+        log.info("Action.add.start");
+        City city = new City();
+        city.setId(weatherRequestDto.cityId());
+        Weather weather = mapper.toEntity(weatherRequestDto, city);
+        repository.save(weather);
+        log.info("Action.add.end");
+    }
+
+    @Override
+    public void update(Long id, WeatherRequestDTO weatherRequestDto) {
+        log.info("Action.update.start");
+        repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(Messages.WEATHER_NOT_FOUND, Messages.WEATHER_NOT_FOUND_MSG));
+        City city = new City();
+        city.setId(weatherRequestDto.cityId());
+        Weather weather = mapper.toEntity(weatherRequestDto, city);
+        weather.setId(id);
+        repository.save(weather);
+        log.info("Action.update.end");
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.info("Action.delete.start");
+        repository.deleteById(id);
+        log.info("Action.delete.start");
     }
 
 }
