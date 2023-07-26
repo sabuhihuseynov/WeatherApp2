@@ -19,5 +19,4 @@ public interface WeatherMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     Weather toEntity(WeatherRequestDTO weatherRequestDTO, City city);
-
 }
