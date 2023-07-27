@@ -86,7 +86,7 @@ public class WeatherServiceImpl implements WeatherService {
     public void delete(Long id) {
         log.info("Action.delete.start");
         repository.deleteById(id);
-        log.info("Action.delete.start");
+        log.info("Action.delete.end");
     }
 
 }
