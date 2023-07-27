@@ -12,7 +12,6 @@ import org.example.model.dto.CountryResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +22,9 @@ public class CountryServiceImpl implements CountryService {
 
     public List<CountryResponseDTO> getAll() {
         log.info("Action.getAll.start");
-        return countryRepository.findAll()
-                .stream().map(countryMapper::toDTO).collect(Collectors.toList());
+        return countryRepository.findAll().stream()
+                .map(countryMapper::toDTO)
+                .toList();
     }
 
     public void add(CountryRequestDTO countryRequestDto) {
