@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-foreign-key
+      author: Sabuhi Huseynov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: forecast_day_id
+            baseTableName: hourly_weathers
+            constraintName: forecast_day_hour_fk
+            referencedColumnNames: id
+            referencedTableName: forecast_day
+        - addForeignKeyConstraint:
+            baseColumnNames: day_id
+            baseTableName: forecast_day
+            constraintName: forecast_day_fk
+            referencedColumnNames: id
+            referencedTableName: days
+        - addForeignKeyConstraint:
+            baseColumnNames: astro_id
+            baseTableName: forecast_day
+            constraintName: forecast_day_astro_fk
+            referencedColumnNames: id
+            referencedTableName: astro
+        - addForeignKeyConstraint:
+            baseColumnNames: location_id
+            baseTableName: forecast_day
+            constraintName: forecast_day_location_fk
+            referencedColumnNames: id
+            referencedTableName: locations
+        - addForeignKeyConstraint:
+            baseColumnNames: weather_condition_code
+            baseTableName: hourly_weathers
+            constraintName: weather_condition_hour_fk
+            referencedColumnNames: code
+            referencedTableName: weather_conditions
+        - addForeignKeyConstraint:
+            baseColumnNames: weather_condition_code
+            baseTableName: days
+            constraintName: weather_condition_day_fk
+            referencedColumnNames: code
+            referencedTableName: weather_conditions
+

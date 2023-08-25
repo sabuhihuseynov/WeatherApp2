@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: Create ForecastDay table
+      author: Sabuhi Huseynov
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: forecast_day
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKeyName: pk_forecast_day
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: location_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: forecast_day_location_fk
+              - column:
+                  name: day_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: forecast_day_fk
+              - column:
+                  name: astro_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: forecast_day_astro_fk
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the transaction created
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the record updated
+            remarks: ForecastDay Table

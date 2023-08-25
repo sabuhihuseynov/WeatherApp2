@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: Create Weather Condition table
+      author: Sabuhi Huseynov
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: weather_conditions
+            columns:
+              - column:
+                  name: code
+                  type: bigint
+                  constraints:
+                    primaryKeyName: pk_weather_condition
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: icon
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the transaction created
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the record updated
+            remarks: Weather Conditions Table

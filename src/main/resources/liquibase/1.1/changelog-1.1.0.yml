@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: Create Astro table
+      author: Sabuhi Huseynov
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: astro
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKeyName: pk_astro
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: sunrise
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sunset
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: moonrise
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: moonset
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the transaction created
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the record updated
+            remarks: Astro Table

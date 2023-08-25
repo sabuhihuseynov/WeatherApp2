@@ -2,6 +2,7 @@ package org.example.dao.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class Country extends BaseEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "country", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<City> cities;
 
 }

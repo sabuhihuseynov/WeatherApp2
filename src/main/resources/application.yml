@@ -1,4 +1,16 @@
 spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          weatherClient:
+            url: ${WEATHER_API_URL}
+
+          default:
+            connectTimeout: 10000
+            readTimeout: 10000
+            loggerLevel: basic
+
   datasource:
     url: jdbc:postgresql://localhost:5432/weather
     username: ${POSTGRES_USERNAME}
@@ -7,7 +19,7 @@ spring:
   liquibase:
     change-log: classpath:liquibase/changelog-master.yml
   jpa:
-   show-sql: true
+    show-sql: true
 
 server:
   port: 8082

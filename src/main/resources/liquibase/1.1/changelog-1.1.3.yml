@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: Create Hourly Weather table
+      author: Sabuhi Huseynov
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: hourly_weathers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKeyName: pk_hourly_weather
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: time
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: temp_c
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Temperature as celsius
+              - column:
+                  name: temp_f
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Temperature as fahrenheit
+              - column:
+                  name: wind_kph
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Wind speed as kilometer per hour
+              - column:
+                  name: forecast_day_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: forecast_day_hour_fk
+              - column:
+                  name: weather_condition_code
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: weather_condition_hour_fk
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the transaction created
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the record updated
+            remarks: Hourly Weather Table

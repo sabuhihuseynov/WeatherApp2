@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: Create Day table
+      author: Sabuhi Huseynov
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: days
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKeyName: pk_day
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: maxtemp_c
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Max temperature as celsius
+              - column:
+                  name: maxtemp_f
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Max temperature as fahrenheit
+              - column:
+                  name: mintemp_c
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Min temperature as celsius
+              - column:
+                  name: mintemp_f
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Min temperature as fahrenheit
+              - column:
+                  name: avgtemp_c
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Average of temperature as celsius
+              - column:
+                  name: avgtemp_f
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Average of temperature as fahrenheit
+              - column:
+                  name: maxwind_kph
+                  type: double
+                  constraints:
+                    nullable: false
+                  remarks: Maximum wind as kilometer per hour
+              - column:
+                  name: weather_condition_code
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: weather_condition_day_fk
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the transaction created
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+                  remarks: When the record updated
+            remarks: Day Table
