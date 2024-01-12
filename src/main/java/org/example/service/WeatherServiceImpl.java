@@ -47,7 +47,6 @@ public class WeatherServiceImpl implements WeatherService {
     private final LocationRepository locationRepository;
     private final WeatherConditionRepository weatherConditionRepository;
 
-
     @Override
     public ForecastResponseDTO getForecastByCity(Long cityId) {
         City city = cityRepository.findById(cityId)
